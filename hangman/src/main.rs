@@ -1,15 +1,24 @@
-
+use std::io;
+use std::fs::File;
+use std::io::Read;
 
 
 fn main() {
-    println!("HANGMAN");
-
-    head();
-    torso();
-    arm1();
-    arm2();
-    leg1();
+    println!("WELCOME TO HANGMAN");
     body();
+    //Get wordnum input from user
+    let mut input = String::new();  //
+    println!("Please enter a number for word length: ");
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read line");
+    let word_num: i32 = input.trim().parse().expect("Invalid input");
+
+    println!("You entered {}", word_num);
+
+
+
+
 
 
 }
