@@ -17,14 +17,36 @@ fn main() -> std::io::Result<()>{
     let word_num: i32 = input.trim().parse().expect("Invalid input");
 
     println!("You entered {}", word_num);
-
+    //open file, read file
     let file = File::open("/Users/sean/Projects/programming_projects/rust_projects/hangman/words/words.txt")?;
     let reader = BufReader::new(file);
-
+    //create vector, read each line into vector
     let mut lines = Vec::new();
     for line in reader.lines() {
         lines.push(line?);
     }
+
+    //create a random number generator
+    let mut rng = rand::thread_rng();
+    //generate random number within specified range, i.e. length of text file
+    let random_number = rng.gen_range(1..=2872); // TODO: change from hardcoded length to int
+    //testing
+    println!("Random number: {} " , random_number);
+    
+
+    let random_word_length: i32 = lines[random_number].len(); //this may be problematic, it returns num of bytes not char's
+
+    println!("random word length: {}" , random_word_length);
+
+    if(word_num == random_word_length) {
+        println!("Random word at random number: {}" , lines[random_number]);// TODO: fix so it can't go out of bounds
+    }
+
+
+
+
+
+
 
 
     Ok(())
