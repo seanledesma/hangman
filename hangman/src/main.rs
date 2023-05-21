@@ -1,9 +1,11 @@
 use std::io;
 use std::fs::File;
 use std::io::Read;
+use std::io::{BufRead, BufReader};
+use rand::Rng;
 
 
-fn main() {
+fn main() -> std::io::Result<()>{
     println!("WELCOME TO HANGMAN");
     body();
     //Get wordnum input from user
@@ -16,11 +18,16 @@ fn main() {
 
     println!("You entered {}", word_num);
 
+    let file = File::open("/Users/sean/Projects/programming_projects/rust_projects/hangman/words/words.txt")?;
+    let reader = BufReader::new(file);
+
+    let mut lines = Vec::new();
+    for line in reader.lines() {
+        lines.push(line?);
+    }
 
 
-
-
-
+    Ok(())
 }
 
 fn head() {
