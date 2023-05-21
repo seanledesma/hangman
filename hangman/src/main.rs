@@ -10,13 +10,13 @@ fn main() -> std::io::Result<()>{
     body();
     //Get wordnum input from user
     let mut input = String::new();  //
-    println!("Please enter a number for word length: ");
+    println!("How many digits would you like your word to be? ");
     io::stdin()
         .read_line(&mut input)
         .expect("Failed to read line");
-    let word_num: i32 = input.trim().parse().expect("Invalid input");
+    let requested_word_length: i32 = input.trim().parse().expect("Invalid input");
 
-    println!("You entered {}", word_num);
+    println!("You entered {}", requested_word_length);
     //open file, read file
     let file = File::open("/Users/sean/Projects/programming_projects/rust_projects/hangman/words/words.txt")?;
     let reader = BufReader::new(file);
@@ -33,15 +33,21 @@ fn main() -> std::io::Result<()>{
     //testing
     println!("Random number: {} " , random_number);
     
-
-    let random_word_length: i32 = lines[random_number].len(); //this may be problematic, it returns num of bytes not char's
-
-    println!("random word length: {}" , random_word_length);
-
-    if(word_num == random_word_length) {
-        println!("Random word at random number: {}" , lines[random_number]);// TODO: fix so it can't go out of bounds
+    
+/*
+ * The below code finds a word in the word vector that is the same 
+ * length as the requested word length by the user.
+ * Potential issues: 
+ * If the random number takes you to the end of the list of words, there is a chance
+ * you will not find the word with the right length
+ */
+    for i in random_number..lines.len() {
+        let random_word_length: i32 = lines[i].len().try_into().unwrap(); //this may be problematic, it returns num of bytes not char's
+        if(random_word_length == requested_word_length) {
+            println!("Random word at random number: {}" , lines[i]);// TODO: fix so it can't go out of bounds
+            break;
+        }     
     }
-
 
 
 
