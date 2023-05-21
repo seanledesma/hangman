@@ -16,11 +16,21 @@ fn main() {
     
     let hangman_word = find_right_length_word(requested_word_length, lines, random_number);
     
-    game_loop(hangman_word, requested_word_length);
+    let incorrect_letters = game_loop(hangman_word, requested_word_length);
+    println!("amound of incorrect letters: {}" , incorrect_letters);
 
-
+    match incorrect_letters {
+        0 => no_body(),
+        1 => head(),
+        2 => torso(),
+        3 => arm1(),
+        4 => arm2(),
+        5 => leg1(),
+        6 => body(),
+        _ => println!("error"),
+    }
     
-
+    
 
 
 
@@ -88,7 +98,7 @@ fn find_right_length_word(requested_word_length: i32, lines: Vec<String>, random
     return hangman_word;
 }
 
-fn game_loop(hangman_word: String, requested_word_length: i32) {
+fn game_loop(hangman_word: String, requested_word_length: i32) -> i32{
     println!("hangman word: {}" , hangman_word);
     for i in 0..requested_word_length {
         print!("_");
@@ -98,6 +108,8 @@ fn game_loop(hangman_word: String, requested_word_length: i32) {
 
     //may have problems, swiped from GPT
     //all this just to get a char from user
+    let mut incorrect_letters: i32 = 0;
+    let mut has_letter = false;
     let mut input_char = String::new();
     println!("Please guess a letter: ");
     match io::stdin().read_line(&mut input_char) {
@@ -108,6 +120,7 @@ fn game_loop(hangman_word: String, requested_word_length: i32) {
                 for ch in hangman_word.chars() {
                     if(ch == c) {
                         print!("{}" , ch);
+                        has_letter = true;
                     }else {
                         print!("_");
                     }
@@ -119,12 +132,30 @@ fn game_loop(hangman_word: String, requested_word_length: i32) {
         Err(error) => println!("Error: {}", error),
     }
     println!();
+
+    if(has_letter == false) {
+        println!("incorrect letter!");
+        incorrect_letters += 1;
+    }
+
+    incorrect_letters
 }
 
 
 
 
-
+fn no_body() {
+    println!("      _____");
+    println!("     |     |");
+    println!("           |");
+    println!("           |");
+    println!("           |");
+    println!("           |");
+    println!("           |");
+    println!("           |");
+    println!("           |");
+    println!("-------------------");
+}
 
 
 fn head() {
