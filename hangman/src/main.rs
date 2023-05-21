@@ -10,7 +10,7 @@ fn main() -> std::io::Result<()>{
     body();
     //Get wordnum input from user
     let mut input = String::new();  //
-    println!("How many digits would you like your word to be? ");
+    println!("Enter a number for how long you would like your word to be: ");
     io::stdin()
         .read_line(&mut input)
         .expect("Failed to read line");
