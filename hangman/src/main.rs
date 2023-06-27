@@ -21,24 +21,51 @@ fn main() {
 
 
     let mut attempts = requested_word_length;
+    let mut incorrect_attempts: i32 = 0;
     println!("word: {}", hangman_word);
-    for i in 0..requested_word_length {
+    println!();
 
+    let mut lines_letters: Vec<char> = Vec::new();
+    for h in 0..requested_word_length {
+        lines_letters.push('_');
+        print!("_");
+    }
+    println!();
+    for i in 0..requested_word_length {
+        let usize_index = i as usize;  // Convert i32 to usize
 
         println!("You have {} attempts remaining", attempts);
         attempts -= 1;
 
-        println!("Please enter a letter: ");
         let user_char = get_user_char();
 
         for c in hangman_word.chars() {
     
             if(user_char == c) {
-                println!("success!!!");
+                lines_letters[usize_index] = user_char;
+                println!("debuggin: {}", lines_letters[usize_index]);
+            }else{
+                incorrect_attempts += 1;
             }
     
         }
+        //match is like switch statement, _ means base case
+        match incorrect_attempts {
+            0 => no_body(),
+            1 => head(),
+            2 => torso(),
+            3 => arm1(),
+            4 => arm2(),
+            5 => leg1(),
+            6 => body(),
+            _ => println!("error"),
+        }
+        for k in 0..requested_word_length{
+            let k_index = k as usize;
+            print!("{}", lines_letters[k_index]);
+        }
 
+        println!();
     }
 
 
@@ -148,17 +175,7 @@ fn game_loop(hangman_word: String, requested_word_length: i32){
             println!("incorrect letter!");
             incorrect_letters += 1;
         }
-        //match is like switch statement, _ means base case
-        match incorrect_letters {
-            0 => no_body(),
-            1 => head(),
-            2 => torso(),
-            3 => arm1(),
-            4 => arm2(),
-            5 => leg1(),
-            6 => body(),
-            _ => println!("error"),
-        }
+
     }
 
 
