@@ -16,11 +16,30 @@ fn main() {
     
     let hangman_word = find_right_length_word(requested_word_length, lines, random_number);
     
-    game_loop(hangman_word, requested_word_length);
+    //game_loop(hangman_word, requested_word_length);
     //println!("amound of incorrect letters: {}" , incorrect_letters);
 
 
+    let mut attempts = requested_word_length;
+    println!("word: {}", hangman_word);
+    for i in 0..requested_word_length {
+
+
+        println!("You have {} attempts remaining", attempts);
+        attempts -= 1;
+
+        println!("Please enter a letter: ");
+        let user_char = get_user_char();
+
+        for c in hangman_word.chars() {
     
+            if(user_char == c) {
+                println!("success!!!");
+            }
+    
+        }
+
+    }
 
 
 
@@ -100,7 +119,7 @@ fn game_loop(hangman_word: String, requested_word_length: i32){
     let mut incorrect_letters: i32 = 0;
     let mut has_letter = false;
     let mut input_char = String::new();
-
+    //the '..' in the for loop basically means 'up to'
     for i in 0..requested_word_length {
         has_letter = false;
         println!("Please guess a letter: ");
@@ -129,7 +148,7 @@ fn game_loop(hangman_word: String, requested_word_length: i32){
             println!("incorrect letter!");
             incorrect_letters += 1;
         }
-
+        //match is like switch statement, _ means base case
         match incorrect_letters {
             0 => no_body(),
             1 => head(),
@@ -146,7 +165,17 @@ fn game_loop(hangman_word: String, requested_word_length: i32){
 
 }
 
+//swiped from GPT
+fn get_user_char() -> char {
+    let stdin = io::stdin();
+    let mut input = String::new();
 
+    println!("Please enter a letter:");
+    stdin.lock().read_line(&mut input).expect("Failed to read line");
+
+    let letter = input.trim().chars().next().expect("Empty input");
+    letter
+}
 
 
 fn no_body() {
