@@ -19,6 +19,12 @@ fn main() {
     //game_loop(hangman_word, requested_word_length);
     //println!("amound of incorrect letters: {}" , incorrect_letters);
 
+    /*
+     *  TODO: 
+     *  - clean up code, put into seperate game loop function
+     *  - get rid of old game loop
+     *  - figure out logic for ending point, if you lose or win
+     */
 
 
     let mut incorrect_attempts: i32 = 0;
