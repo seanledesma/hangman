@@ -20,34 +20,43 @@ fn main() {
     //println!("amound of incorrect letters: {}" , incorrect_letters);
 
 
-    let mut attempts = requested_word_length;
+
     let mut incorrect_attempts: i32 = 0;
+    let mut total_allowed_attempts: i32 = requested_word_length * 2;
+    let mut attempts = total_allowed_attempts;
+    let mut char_index: usize = 0;
+    let mut letter_exists: bool = false;
     println!("word: {}", hangman_word);
     println!();
 
     let mut lines_letters: Vec<char> = Vec::new();
     for h in 0..requested_word_length {
+        let mut h_index = h as usize;
         lines_letters.push('_');
-        print!("_");
+        print!("{}", lines_letters[h_index]);
     }
     println!();
-    for i in 0..requested_word_length {
+    for i in 0..total_allowed_attempts {
         let usize_index = i as usize;  // Convert i32 to usize
 
         println!("You have {} attempts remaining", attempts);
         attempts -= 1;
 
         let user_char = get_user_char();
-
+        char_index = 0;
+        letter_exists = false;
         for c in hangman_word.chars() {
-    
+            
             if(user_char == c) {
-                lines_letters[usize_index] = user_char;
-                println!("debuggin: {}", lines_letters[usize_index]);
-            }else{
-                incorrect_attempts += 1;
+                lines_letters[char_index] = user_char;
+                //println!("debuggin: {}", lines_letters[char_index]);
+                letter_exists = true;
             }
-    
+            char_index += 1;
+        }
+
+        if(!letter_exists){
+            incorrect_attempts += 1;
         }
         //match is like switch statement, _ means base case
         match incorrect_attempts {
@@ -58,7 +67,7 @@ fn main() {
             4 => arm2(),
             5 => leg1(),
             6 => body(),
-            _ => println!("error"),
+            _ => println!("error in match statement"),
         }
         for k in 0..requested_word_length{
             let k_index = k as usize;
