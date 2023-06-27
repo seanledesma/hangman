@@ -47,9 +47,8 @@ fn welcome_screen() -> i32{
 
 fn read_file() -> Vec<String>{
     //open file, read file
-    let file = File::open("/Users/sean/Projects/programming_projects/rust_projects/hangman/words/words.txt").unwrap();
+    let file = File::open("words/words.txt").unwrap();
     let reader = BufReader::new(file);
-
     //create vector, read each line into vector
     let mut lines = Vec::new();
     for line in reader.lines() {
