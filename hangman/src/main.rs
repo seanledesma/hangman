@@ -33,6 +33,7 @@ fn main() {
 fn game_loop(requested_word_length: i32, hangman_word: String) {
     //initialization
     let mut game_over: bool = false;
+    let mut user_wins: bool = false;
     let mut incorrect_attempts: i32 = 0;
     //let mut total_allowed_attempts: i32 = requested_word_length * 2;    //change this, shouldn't be based on attempts but on if you get hangman!
     //let mut attempts = total_allowed_attempts;
@@ -45,6 +46,7 @@ fn game_loop(requested_word_length: i32, hangman_word: String) {
     println!();
 
     //place all '_' into word vector
+    print!("\t\t\t");
     for h in 0..requested_word_length {
         let mut h_index = h as usize;
         hidden_word_vec.push('_');
@@ -52,8 +54,9 @@ fn game_loop(requested_word_length: i32, hangman_word: String) {
     }
     println!();
 
-    while !game_over {
 
+    while !game_over {
+        //get user input, see if it matches anything
         let user_char = get_user_char();
         char_index = 0;
         letter_exists = false;
@@ -67,9 +70,31 @@ fn game_loop(requested_word_length: i32, hangman_word: String) {
             char_index += 1;
         }
 
+        //print blank spaces and letters user got right, 
+        //also game over if user guessed all letters
+        print!("\t\t\t");
+        let mut count: i32 = 0;
+        for k in 0..requested_word_length{
+            let k_index = k as usize;
+            print!("{}", hidden_word_vec[k_index]);
+
+            if (hidden_word_vec[k_index] != '_') {
+                count += 1;
+            }
+            if (count >= requested_word_length) {
+                user_wins = true;
+                game_over = true;
+            }
+        }
+        println!();
+
         if(!letter_exists){
             incorrect_attempts += 1;
+            if(incorrect_attempts >= 6){
+                game_over = true;
+            }
         }
+
         //match is like switch statement, _ means base case
         match incorrect_attempts {
             0 => no_body(),
@@ -81,12 +106,13 @@ fn game_loop(requested_word_length: i32, hangman_word: String) {
             6 => body(),
             _ => println!("error in match statement"),
         }
-        for k in 0..requested_word_length{
-            let k_index = k as usize;
-            print!("{}", hidden_word_vec[k_index]);
-        }
 
-        println!();
+    }
+
+    //place logic here after game is over
+    println!("\t\t\tGAME OVER");
+    if (user_wins) {
+        println!("\t\t\tYOU WIN!!");
     }
 }
 
@@ -159,7 +185,7 @@ fn get_user_char() -> char {
     let stdin = io::stdin();
     let mut input = String::new();
 
-    println!("Please enter a letter:");
+    println!("Please enter a letter: ");
     stdin.lock().read_line(&mut input).expect("Failed to read line");
 
     let letter = input.trim().chars().next().expect("Empty input");
