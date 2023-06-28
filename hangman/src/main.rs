@@ -50,7 +50,7 @@ fn game_loop(requested_word_length: i32, hangman_word: String) {
     for h in 0..requested_word_length {
         let mut h_index = h as usize;
         hidden_word_vec.push('_');
-        print!("{}", hidden_word_vec[h_index]);
+        //print!("{}", hidden_word_vec[h_index]);
     }
     println!();
 
@@ -70,23 +70,7 @@ fn game_loop(requested_word_length: i32, hangman_word: String) {
             char_index += 1;
         }
 
-        //print blank spaces and letters user got right, 
-        //also game over if user guessed all letters
-        print!("\t\t\t");
-        let mut count: i32 = 0;
-        for k in 0..requested_word_length{
-            let k_index = k as usize;
-            print!("{}", hidden_word_vec[k_index]);
 
-            if (hidden_word_vec[k_index] != '_') {
-                count += 1;
-            }
-            if (count >= requested_word_length) {
-                user_wins = true;
-                game_over = true;
-            }
-        }
-        println!();
 
         if(!letter_exists){
             incorrect_attempts += 1;
@@ -107,13 +91,35 @@ fn game_loop(requested_word_length: i32, hangman_word: String) {
             _ => println!("error in match statement"),
         }
 
+        //print blank spaces and letters user got right, 
+        //also game over if user guessed all letters
+        print!("\t");
+        let mut count: i32 = 0;
+        for k in 0..requested_word_length{
+            let k_index = k as usize;
+            print!("{}", hidden_word_vec[k_index]);
+
+            if (hidden_word_vec[k_index] != '_') {
+                count += 1;
+            }
+            if (count >= requested_word_length) {
+                user_wins = true;
+                game_over = true;
+            }
+        }
+        println!();
+
     }
 
     //place logic here after game is over
+    println!();
     println!("\t\t\tGAME OVER");
     if (user_wins) {
         println!("\t\t\tYOU WIN!!");
+    }else{
+        println!("\t\t\tYOU LOSE :(")
     }
+    println!();
 }
 
 
@@ -126,7 +132,8 @@ fn welcome_screen() -> i32{
     println!("WELCOME TO HANGMAN");
     body();
     //Get wordnum input from user
-    let mut input = String::new();  //
+    let mut input = String::new();  
+    println!();
     println!("Enter a number for how long you would like your word to be: ");
     io::stdin()
         .read_line(&mut input)
@@ -184,7 +191,7 @@ fn find_right_length_word(requested_word_length: i32, lines: Vec<String>, random
 fn get_user_char() -> char {
     let stdin = io::stdin();
     let mut input = String::new();
-
+    println!();
     println!("Please enter a letter: ");
     stdin.lock().read_line(&mut input).expect("Failed to read line");
 
@@ -203,7 +210,7 @@ fn no_body() {
     println!("           |");
     println!("           |");
     println!("           |");
-    println!("-------------------");
+    print!("-------------------");
 }
 
 
@@ -217,7 +224,7 @@ fn head() {
     println!("           |");
     println!("           |");
     println!("           |");
-    println!("-------------------");
+    print!("-------------------");
 }
 
 fn torso() {
@@ -230,7 +237,7 @@ fn torso() {
     println!("           |");
     println!("           |");
     println!("           |");
-    println!("-------------------");
+    print!("-------------------");
 }
 
 fn arm1() {
@@ -243,7 +250,7 @@ fn arm1() {
     println!("           |");
     println!("           |");
     println!("           |");
-    println!("-------------------");
+    print!("-------------------");
 }
 
 fn arm2() {
@@ -256,7 +263,7 @@ fn arm2() {
     println!("           |");
     println!("           |");
     println!("           |");
-    println!("-------------------");
+    print!("-------------------");
 }
 
 fn leg1() {
@@ -269,7 +276,7 @@ fn leg1() {
     println!("    /      |");
     println!("   /       |");
     println!("           |");
-    println!("-------------------");
+    print!("-------------------");
 }
 
 
@@ -283,5 +290,5 @@ fn body() {
     println!("    / \\    |");
     println!("   /   \\   |");
     println!("           |");
-    println!("-------------------");
+    print!("-------------------");
 }
