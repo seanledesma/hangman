@@ -16,8 +16,7 @@ fn main() {
     
     let hangman_word = find_right_length_word(requested_word_length, lines, random_number);
     
-    //game_loop(hangman_word, requested_word_length);
-    //println!("amound of incorrect letters: {}" , incorrect_letters);
+    game_loop(requested_word_length, hangman_word);
 
     /*
      *  TODO: 
@@ -27,26 +26,33 @@ fn main() {
      */
 
 
+
+}
+
+
+fn game_loop(requested_word_length: i32, hangman_word: String) {
+    //initialization
+    let mut game_over: bool = false;
     let mut incorrect_attempts: i32 = 0;
-    let mut total_allowed_attempts: i32 = requested_word_length * 2;
-    let mut attempts = total_allowed_attempts;
+    //let mut total_allowed_attempts: i32 = requested_word_length * 2;    //change this, shouldn't be based on attempts but on if you get hangman!
+    //let mut attempts = total_allowed_attempts;
     let mut char_index: usize = 0;
     let mut letter_exists: bool = false;
+    let mut hidden_word_vec: Vec<char> = Vec::new();
+
+    //DEBUGGING, take out later
     println!("word: {}", hangman_word);
     println!();
 
-    let mut lines_letters: Vec<char> = Vec::new();
+    //place all '_' into word vector
     for h in 0..requested_word_length {
         let mut h_index = h as usize;
-        lines_letters.push('_');
-        print!("{}", lines_letters[h_index]);
+        hidden_word_vec.push('_');
+        print!("{}", hidden_word_vec[h_index]);
     }
     println!();
-    for i in 0..total_allowed_attempts {
-        let usize_index = i as usize;  // Convert i32 to usize
 
-        println!("You have {} attempts remaining", attempts);
-        attempts -= 1;
+    while !game_over {
 
         let user_char = get_user_char();
         char_index = 0;
@@ -54,8 +60,8 @@ fn main() {
         for c in hangman_word.chars() {
             
             if(user_char == c) {
-                lines_letters[char_index] = user_char;
-                //println!("debuggin: {}", lines_letters[char_index]);
+                hidden_word_vec[char_index] = user_char;
+                //println!("debuggin: {}", hidden_word_vec[char_index]);
                 letter_exists = true;
             }
             char_index += 1;
@@ -77,19 +83,18 @@ fn main() {
         }
         for k in 0..requested_word_length{
             let k_index = k as usize;
-            print!("{}", lines_letters[k_index]);
+            print!("{}", hidden_word_vec[k_index]);
         }
 
         println!();
     }
-
-
-
-
-
-
-    
 }
+
+
+
+
+
+
 
 fn welcome_screen() -> i32{
     println!("WELCOME TO HANGMAN");
@@ -148,54 +153,6 @@ fn find_right_length_word(requested_word_length: i32, lines: Vec<String>, random
     return hangman_word;
 }
 
-fn game_loop(hangman_word: String, requested_word_length: i32){
-    println!("hangman word: {}" , hangman_word);
-    for i in 0..requested_word_length {
-        print!("_");
-    }
-    println!(); // needed to get cursor down
-
-
-    //may have problems, swiped from GPT
-    //all this just to get a char from user
-    let mut incorrect_letters: i32 = 0;
-    let mut has_letter = false;
-    let mut input_char = String::new();
-    //the '..' in the for loop basically means 'up to'
-    for i in 0..requested_word_length {
-        has_letter = false;
-        println!("Please guess a letter: ");
-        match io::stdin().read_line(&mut input_char) {
-            Ok(_) => {
-                // Get the first character from the input string
-                if let Some(c) = input_char.chars().next() {
-                    //println!("Input character: {}", c);
-                    for ch in hangman_word.chars() {
-                        if(ch == c) {
-                            print!("{}" , ch);
-                            has_letter = true;
-                        }else {
-                            print!("_");
-                        }
-                    }
-                } else {
-                    println!("No character entered.");
-                }
-            }
-            Err(error) => println!("Error: {}", error),
-        }
-        println!();
-    
-        if(has_letter == false) {
-            println!("incorrect letter!");
-            incorrect_letters += 1;
-        }
-
-    }
-
-
-
-}
 
 //swiped from GPT
 fn get_user_char() -> char {
