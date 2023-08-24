@@ -1,1 +1,1 @@
-/Users/sean/Projects/programming_projects/rust_projects/hangman/target/debug/hangman: /Users/sean/Projects/programming_projects/rust_projects/hangman/src/main.rs
+/home/sean/Projects/Programming\ Projects/rust/hangman/hangman/target/debug/hangman: /home/sean/Projects/Programming\ Projects/rust/hangman/hangman/src/main.rs
